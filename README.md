@@ -23,6 +23,7 @@ A Flutter app that fetches and displays a list of articles from a public API.
 - Flutter SDK: 3.29.2
 - State Management: GetX
 - HTTP Client: HTTP
+- Persistence: shared_preferences
 
 ## State Management Explanation
 This project uses GetX for state management, routing, and dependency injection. GetX was chosen for its simplicity, minimal boilerplate, and efficient reactive programming support, making it easier to manage UI updates and application state.
