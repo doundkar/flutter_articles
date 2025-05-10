@@ -10,29 +10,18 @@ class CommonBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      selectedItemColor: ColorUtils().error,
-      unselectedItemColor: ColorUtils().unSelectedColor,
+      selectedItemColor: ColorUtils.accent,
+      unselectedItemColor: ColorUtils.unSelectedColor,
       onTap: (index) {
         if (index == 0) {
-          Get.offAllNamed('/menulist');
+          Get.offNamed('/articleslist');
         } else if (index == 1) {
-          Get.offAllNamed('/cart');
+          Get.offNamed('/favorites');
         }
       },
       items: [
-        const BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: 'Menu'),
-        const BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: 'Menu'),
-        // BottomNavigationBarItem(
-        //   icon: Obx(
-        //     () => badges.Badge(
-        //       showBadge: Get.find<FoodService>().cartItemCount.value > 0 ? true : false,
-        //       position: badges.BadgePosition.topEnd(top: -10, end: -12),
-        //       badgeContent: Text(Get.find<FoodService>().cartItemCount.toString()),
-        //       child: const Icon(Icons.shopping_cart),
-        //     ),
-        //   ),
-        //   label: 'Cart',
-        // ),
+        BottomNavigationBarItem(icon: Icon(Icons.article), label: 'Articles'),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
       ],
     );
   }

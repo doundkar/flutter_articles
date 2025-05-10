@@ -7,29 +7,20 @@ class ArticleList extends GetView<ArticleListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(
-        title: 'Articles',
-      ),
+      appBar: const CommonAppBar(title: 'Articles'),
       body: SafeArea(
         child: Column(
           children: [
-            // Custom Search Bar
+            // Search Bar
             Padding(
               padding: const EdgeInsets.all(12),
               child: TextField(
                 onChanged: controller.filterArticles,
                 decoration: InputDecoration(
                   hintText: 'Search articles...',
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: ColorUtils.accent,
-                      width: 2,
-                    ),
-                  ),
+                  focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: ColorUtils.accent, width: 2)),
                   prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                 ),
               ),
             ),
@@ -51,9 +42,7 @@ class ArticleList extends GetView<ArticleListController> {
                       return Card(
                         elevation: 4,
                         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         child: ListTile(
                           leading: const Icon(Icons.article, color: Colors.blue),
                           title: Text(
@@ -62,20 +51,39 @@ class ArticleList extends GetView<ArticleListController> {
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          subtitle: Text(
-                            articles[index].body ?? '',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                          subtitle: Text(articles[index].body ?? '', maxLines: 2, overflow: TextOverflow.ellipsis),
+                          trailing: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Obx(
+                                  () => Icon(
+                                    controller.favoriteIds.contains(articles[index].id)
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: ColorUtils.accent,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  controller.toggleFavorite(articles[index]);
+                                },
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Get.offNamed(
+                                    '/articleslist/article',
+                                    arguments: {
+                                      "id": articles[index].id,
+                                      "title": articles[index].title,
+                                      "body": articles[index].body,
+                                    },
+                                  );
+                                },
+                                icon: Icon(Icons.arrow_forward_ios, size: 16),
+                              ),
+                            ],
                           ),
-                          trailing: InkWell(
-                              onTap: () {
-                                Get.offNamed('/articleslist/article', arguments: {
-                                  "id": articles[index].id,
-                                  "title": articles[index].title,
-                                  "body": articles[index].body
-                                });
-                              },
-                              child: const Icon(Icons.arrow_forward_ios, size: 16)),
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                         ),
                       );

@@ -7,11 +7,9 @@ class ArticleController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    print("Inside onInit..........");
     if (Get.arguments != null) {
       articleTitle.value = Get.arguments['title'];
       articleBody.value = Get.arguments['body'];
     }
-    print("articleTitle:: ${articleTitle}");
   }
 }

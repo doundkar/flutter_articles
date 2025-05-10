@@ -1,5 +1,5 @@
-import 'package:articlehub/controller/article_list_controller.dart';
-import 'package:get/get.dart';
+import 'package:articlehub/widgets/export.dart';
+
 
 class ArticleListBinding extends Bindings {
   @override

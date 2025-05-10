@@ -1,4 +1,3 @@
-import 'package:articlehub/widgets/export.dart';
 import 'package:flutter/material.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -11,7 +10,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title, style: const TextStyle(color: Colors.white)),
-      backgroundColor: ColorUtils.accent,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       actions: actions,
     );
   }

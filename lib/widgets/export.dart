@@ -10,3 +10,7 @@ export 'package:articlehub/model/article_model.dart';
 export 'package:articlehub/controller/article_controller.dart';
 export 'package:articlehub/binding/article_binding.dart';
 export 'package:articlehub/views/article_view.dart';
+export 'package:articlehub/controller/favorite_list_controller.dart';
+export 'package:articlehub/binding/favorite_list_binding.dart';
+export 'package:articlehub/views/favorite_list_view.dart';
+export 'package:shared_preferences/shared_preferences.dart';

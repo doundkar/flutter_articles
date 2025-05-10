@@ -17,7 +17,6 @@ class ArticleService extends GetxService {
       if (response.statusCode == 200) {
         var result = json.decode(response.body);
         List<dynamic> data = result;
-        // print("data:: ${data}");
         return data;
       }
     } catch (e) {
