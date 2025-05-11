@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:articlehub/widgets/export.dart';
 
 class ArticleListController extends GetxController {
@@ -7,21 +8,35 @@ class ArticleListController extends GetxController {
   RxList<Article> filteredArticles = <Article>[].obs;
   RxSet<int> favoriteIds = <int>{}.obs;
   RxBool isConnected = true.obs;
+  late StreamSubscription<List<ConnectivityResult>> connectivitySubscription;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
-    await checkInternetConnection();
-    if (isConnected.value) {
-      await getArticlesList();
-      await loadFavorites();
-    }
+    _initConnectivity();
+    connectivitySubscription = Connectivity().onConnectivityChanged.listen((results) async {
+      final isNowConnected = results.any((result) => result != ConnectivityResult.none);
+      isConnected.value = isNowConnected;
+
+      if (!isConnected.value) {
+        Get.snackbar(
+          "No Internet",
+          "Please check your internet connection.",
+          backgroundColor: ColorUtils.warning,
+          duration: const Duration(seconds: 3),
+        );
+      } else {
+        if (articles.isEmpty) {
+          await getArticlesList();
+        }
+      }
+    });
   }
 
-  Future<void> checkInternetConnection() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    isConnected.value = connectivityResult != ConnectivityResult.none;
-    // Show snackbar if not connected
+  Future<void> _initConnectivity() async {
+    final results = await Connectivity().checkConnectivity();
+    isConnected.value = results != ConnectivityResult.none;
+
     if (!isConnected.value) {
       Get.snackbar(
         "No Internet",
@@ -29,6 +44,9 @@ class ArticleListController extends GetxController {
         backgroundColor: ColorUtils.warning,
         duration: const Duration(seconds: 3),
       );
+    } else {
+      await getArticlesList();
+      await loadFavorites();
     }
   }
 

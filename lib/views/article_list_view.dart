@@ -27,8 +27,11 @@ class ArticleList extends GetView<ArticleListController> {
             //  Article List
             Expanded(
               child: Obx(() {
+                if (!controller.isConnected.value) {
+                  return const Center(child: Text("No Internet Connection"));
+                }
                 if (controller.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator(color: ColorUtils.accent,));
                 }
                 final articles = controller.filteredArticles;
                 if (articles.isEmpty) {
@@ -37,9 +40,15 @@ class ArticleList extends GetView<ArticleListController> {
                 return RefreshIndicator(
                   color: ColorUtils.accent,
                   onRefresh: () async {
-                    await controller.checkInternetConnection();
                     if (controller.isConnected.value) {
                       await controller.getArticlesList();
+                    } else {
+                      Get.snackbar(
+                        "No Internet",
+                        "Cannot refresh while offline.",
+                        backgroundColor: ColorUtils.warning,
+                        duration: const Duration(seconds: 2),
+                      );
                     }
                   },
                   child: ListView.builder(
