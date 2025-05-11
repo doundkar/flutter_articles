@@ -35,7 +35,13 @@ class ArticleList extends GetView<ArticleListController> {
                   return const Center(child: Text('No articles found.'));
                 }
                 return RefreshIndicator(
-                  onRefresh: controller.getArticlesList,
+                  color: ColorUtils.accent,
+                  onRefresh: () async {
+                    await controller.checkInternetConnection();
+                    if (controller.isConnected.value) {
+                      await controller.getArticlesList();
+                    }
+                  },
                   child: ListView.builder(
                     itemCount: articles.length,
                     itemBuilder: (context, index) {

@@ -14,3 +14,4 @@ export 'package:articlehub/controller/favorite_list_controller.dart';
 export 'package:articlehub/binding/favorite_list_binding.dart';
 export 'package:articlehub/views/favorite_list_view.dart';
 export 'package:shared_preferences/shared_preferences.dart';
+export 'package:connectivity_plus/connectivity_plus.dart';

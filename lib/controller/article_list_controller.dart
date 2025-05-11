@@ -6,12 +6,30 @@ class ArticleListController extends GetxController {
   RxBool isLoading = false.obs;
   RxList<Article> filteredArticles = <Article>[].obs;
   RxSet<int> favoriteIds = <int>{}.obs;
+  RxBool isConnected = true.obs;
 
   @override
   void onInit() async {
     super.onInit();
-    await getArticlesList();
-    await loadFavorites();
+    await checkInternetConnection();
+    if (isConnected.value) {
+      await getArticlesList();
+      await loadFavorites();
+    }
+  }
+
+  Future<void> checkInternetConnection() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    isConnected.value = connectivityResult != ConnectivityResult.none;
+    // Show snackbar if not connected
+    if (!isConnected.value) {
+      Get.snackbar(
+        "No Internet",
+        "Please check your internet connection.",
+        backgroundColor: ColorUtils.warning,
+        duration: const Duration(seconds: 3),
+      );
+    }
   }
 
   Future<void> getArticlesList() async {
